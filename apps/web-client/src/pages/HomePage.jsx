@@ -22,9 +22,9 @@ const CATEGORY_ICONS = {  'Engineering': '⚙️', 'Software Engineering': '💻
 }
 
 const TESTIMONIALS = [
-  { name: 'Selam Tesfaye', initials: 'ST', role: 'Software Intern', quote: 'Nextern helped me land my first tech internship within weeks. The platform is incredibly intuitive.' },
-  { name: 'Dawit Bekele', initials: 'DB', role: 'HR Manager', quote: 'We filled three intern positions in record time. The quality of applicants is outstanding.' },
-  { name: 'Meron Alemu', initials: 'MA', role: 'Design Intern', quote: 'I loved how transparent the process was. I always knew exactly where my application stood.' },
+  { name: 'Hana Girma', initials: 'HG', role: 'Software Intern', quote: 'Nextern helped me land my first tech internship within weeks. The platform is incredibly intuitive.' },
+  { name: 'Yonas Tadesse', initials: 'YT', role: 'HR Manager', quote: 'We filled three intern positions in record time. The quality of applicants is outstanding.' },
+  { name: 'Liya Bekele', initials: 'LB', role: 'Design Intern', quote: 'I loved how transparent the process was. I always knew exactly where my application stood.' },
 ]
 
 const FEATURES = [
@@ -176,7 +176,7 @@ const HomePage = () => {
       )}
 
       {/* ── HERO ──────────────────────────────────────────── */}
-      <section style={{ paddingTop: 120, paddingBottom: 80, textAlign: 'center', padding: '120px 24px 80px' }}>
+      <section className="hero-section" style={{ paddingTop: 120, paddingBottom: 80, textAlign: 'center', padding: '120px 24px 80px' }}>
         <div style={{ maxWidth: 720, margin: '0 auto' }}>
           {/* Label */}
           <motion.div
@@ -215,6 +215,7 @@ const HomePage = () => {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
+            className="search-bar-wrap"
             style={{ display: 'flex', gap: 0, maxWidth: 520, margin: '0 auto 32px', boxShadow: 'var(--shadow-lg)', borderRadius: 12, overflow: 'hidden', border: '1px solid var(--border-default)', background: 'var(--bg-card)' }}
           >
             <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 16, color: 'var(--text-muted)', flexShrink: 0 }}>
@@ -261,7 +262,7 @@ const HomePage = () => {
 
       {/* ── STATS ─────────────────────────────────────────── */}
       <section style={{ borderTop: '1px solid var(--border-default)', borderBottom: '1px solid var(--border-default)', background: 'var(--bg-card)', padding: '32px 24px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32, textAlign: 'center' }}>
+        <div className="stats-grid" style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32, textAlign: 'center' }}>
           {[
             { val: stats.orgs, label: 'Organizations' },
             { val: stats.programs, label: 'Open Internships' },
@@ -283,7 +284,7 @@ const HomePage = () => {
           <h2 style={{ fontSize: 'clamp(22px,3vw,32px)', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.5px' }}>Browse by Category</h2>
           <p style={{ fontSize: 15, color: 'var(--text-muted)', marginTop: 10 }}>Explore internships across every industry and discipline</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 14 }}>
           {categories.map((cat, i) => (
             <motion.div
               key={cat.name}
@@ -322,9 +323,9 @@ const HomePage = () => {
               View all <ArrowRight size={13} />
             </Link>
           </div>
-          <div style={{
+          <div className="programs-grid" style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: 20
           }}>
             {programs.map((p, i) => {
@@ -406,7 +407,7 @@ const HomePage = () => {
             <h2 style={{ fontSize: 'clamp(22px,3vw,32px)', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.5px' }}>How Nextern Works</h2>
             <p style={{ fontSize: 15, color: 'var(--text-muted)', marginTop: 10 }}>Simple for students. Powerful for organizations.</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24 }}>
+          <div className="how-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
             {HOW_IT_WORKS.map((hw, i) => (
               <motion.div
                 key={hw.step}
@@ -442,7 +443,7 @@ const HomePage = () => {
           <h2 style={{ fontSize: 'clamp(22px,3vw,32px)', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.5px' }}>Everything you need</h2>
           <p style={{ fontSize: 15, color: 'var(--text-muted)', marginTop: 10 }}>Built for the complete internship lifecycle</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20 }}>
+        <div className="features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
           {FEATURES.map((f, i) => (
             <motion.div
               key={f.title}
@@ -464,11 +465,11 @@ const HomePage = () => {
 
       {/* ── TESTIMONIALS ──────────────────────────────────── */}
       <section style={{ background: 'var(--bg-card)', borderTop: '1px solid var(--border-default)', borderBottom: '1px solid var(--border-default)', padding: '80px 24px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div className="testimonials-section" style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <h2 style={{ fontSize: 'clamp(22px,3vw,32px)', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.5px' }}>Trusted by students & organizations</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+          <div className="testimonials-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
             {TESTIMONIALS.map((t, i) => (
               <motion.div
                 key={t.name}
@@ -496,7 +497,7 @@ const HomePage = () => {
       </section>
 
       {/* ── CTA ───────────────────────────────────────────── */}
-      <section style={{ padding: '80px 24px', maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
+      <section className="cta-section" style={{ padding: '80px 24px', maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -526,7 +527,7 @@ const HomePage = () => {
       {/* ── FOOTER ────────────────────────────────────────── */}
       <footer style={{ borderTop: '1px solid var(--border-default)', background: 'var(--bg-card)', padding: '40px 24px 24px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'flex', gap: 40, flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: 40 }}>
+          <div className="footer-inner" style={{ display: 'flex', gap: 40, flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: 40 }}>
             <div style={{ maxWidth: 280 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
                 <div style={{ width: 30, height: 30, borderRadius: 8, background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -571,6 +572,73 @@ const HomePage = () => {
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
           .mobile-menu-btn { display: flex !important; }
+
+          /* Stats: stack to 1 column on small screens */
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 20px !important;
+          }
+
+          /* Programs: single column on mobile */
+          .programs-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* Hero section padding */
+          .hero-section {
+            padding: 100px 16px 60px !important;
+          }
+
+          /* Search bar stacks on very small screens */
+          .search-bar-wrap {
+            flex-direction: column !important;
+            border-radius: 12px !important;
+          }
+          .search-bar-wrap input {
+            border-radius: 12px 12px 0 0 !important;
+            padding: 14px 16px !important;
+          }
+          .search-bar-wrap button {
+            border-radius: 0 0 12px 12px !important;
+            padding: 12px 24px !important;
+            width: 100% !important;
+          }
+
+          /* Testimonials: single column */
+          .testimonials-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* Features: 1 col on very small, 2 on medium mobile */
+          .features-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* How it works: 1 col */
+          .how-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* CTA section */
+          .cta-section {
+            padding: 56px 16px !important;
+          }
+
+          /* Footer columns stack */
+          .footer-inner {
+            flex-direction: column !important;
+            gap: 24px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .stats-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .features-grid {
+            grid-template-columns: 1fr !important;
+          }
         }
       `}</style>
     </div>
