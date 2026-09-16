@@ -1086,8 +1086,15 @@ body {
 
 .nx-grid-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .nx-grid-stats { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+@media (max-width: 380px) {
+  .nx-grid-stats { grid-template-columns: 1fr; }
 }
 
 .nx-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -1100,6 +1107,29 @@ body {
 }
 @media (max-width: 640px) {
   .nx-grid-4, .nx-grid-3, .nx-grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Mobile filter rows: stack vertically */
+@media (max-width: 640px) {
+  .nx-filter-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .nx-filter-row .nx-search { width: 100%; }
+  .nx-filter-row .nx-select { width: 100% !important; min-width: 0 !important; }
+}
+
+/* Mobile program card grids */
+@media (max-width: 640px) {
+  .nx-programs-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Page header wraps actions on small screens */
+@media (max-width: 600px) {
+  .nx-page-header { flex-wrap: wrap; }
+  .nx-page-header-actions { flex-wrap: wrap; width: 100%; justify-content: flex-start; }
 }
 
 /* ══════════════════════════════════════════════════════

@@ -24,9 +24,6 @@ const DashboardLayout = ({ children, activeTab, onTabChange }) => {
       <div
         className={`nx-main ${collapsed ? 'sidebar-collapsed' : ''}`}
         style={{
-          marginLeft: collapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)',
-          paddingTop: 'var(--navbar-height)',
-          transition: 'margin-left 0.2s ease',
           minWidth: 0,
           flex: 1,
         }}

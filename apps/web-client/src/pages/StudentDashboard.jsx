@@ -161,7 +161,7 @@ const StudentDashboard = () => {
               {/* Filters */}
               <Card>
                 <CardBody compact>
-                  <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+                  <div className="nx-filter-row" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
                     <div className="nx-search" style={{ flex: 1, minWidth: 200 }}>
                       <Search size={13} style={{ color: 'var(--text-muted)' }} />
                       <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search by title, category, or organization…" />
@@ -193,7 +193,7 @@ const StudentDashboard = () => {
               {filteredPrograms.length === 0 ? (
                 <Card><CardBody><EmptyState icon={Briefcase} title="No internships found" description="Try adjusting your filters or search terms." /></CardBody></Card>
               ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+                <div className="nx-programs-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
                   {filteredPrograms.map(p => {
                     const isApplied = appliedIds.includes(p.id)
                     const isBookmarked = savedPrograms.some(s => s.program_id === p.id)
