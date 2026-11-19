@@ -305,10 +305,118 @@ const resetPassword = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/v1/auth/demo-accounts
+ * Returns safe public metadata for demo accounts (no passwords).
+ */
+const getDemoAccounts = async (req, res) => {
+  const { DEMO_ACCOUNTS_METADATA } = require('../src/utils/demoDataSeeder');
+  return res.json({ accounts: DEMO_ACCOUNTS_METADATA });
+};
+
+/**
+ * POST /api/v1/auth/demo-login
+ * Secure server-side demo authentication without exposing credentials on the client.
+ */
+const demoLogin = async (req, res) => {
+  const { role, email } = req.body;
+  if (!role && !email) {
+    return res.status(400).json({ message: 'Role or email is required for demo login.' });
+  }
+
+  const { DEMO_ACCOUNTS_METADATA, seedDemoData } = require('../src/utils/demoDataSeeder');
+
+  const normalizedRole = role ? role.toUpperCase() : null;
+  const targetMeta = DEMO_ACCOUNTS_METADATA.find(acc =>
+    (normalizedRole && acc.role === normalizedRole) ||
+    (email && acc.email.toLowerCase() === email.toLowerCase())
+  );
+
+  if (!targetMeta) {
+    return res.status(400).json({ message: 'Invalid demo account requested.' });
+  }
+
+  try {
+    let user = await prisma.user.findFirst({
+      where: { email: targetMeta.email }
+    });
+
+    // Auto-seed if demo accounts have not been populated yet
+    if (!user) {
+      await seedDemoData();
+      user = await prisma.user.findFirst({
+        where: { email: targetMeta.email }
+      });
+    }
+
+    if (!user) {
+      return res.status(500).json({ message: 'Unable to initialize demo account.' });
+    }
+
+    // Fetch tenant details if tenant_id is present
+    let org = null;
+    if (user.tenant_id) {
+      org = await prisma.tenant.findUnique({
+        where: { id: user.tenant_id }
+      });
+    }
+
+    const tenantName = org ? org.name : (user.role === 'SUPERADMIN' ? 'Platform Administration' : 'Global Student Network');
+
+    const payload = {
+      userId: user.id,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      domain: user.domain,
+      tenantId: user.tenant_id,
+      tenant_id: user.tenant_id,
+      tenant_name: tenantName,
+      status: 'ACTIVE',
+      is_demo: true
+    };
+
+    const token = jwt.sign(
+      payload,
+      process.env.JWT_SECRET || 'b49fca92c813a2957b102143df8c7c10b784a91aef',
+      { expiresIn: '24h' }
+    );
+
+    return res.json({
+      message: `Demo login successful as ${targetMeta.role}`,
+      token,
+      user: payload,
+      defaultRoute: targetMeta.defaultRoute
+    });
+  } catch (error) {
+    console.error('Demo login error:', error);
+    return res.status(500).json({ message: 'Internal Server Error during demo login' });
+  }
+};
+
+/**
+ * POST /api/v1/auth/seed-demo
+ * Administrative database seeding trigger.
+ */
+const seedDemoEndpoint = async (req, res) => {
+  try {
+    const { seedDemoData } = require('../src/utils/demoDataSeeder');
+    const result = await seedDemoData();
+    return res.json(result);
+  } catch (error) {
+    console.error('Demo seeding endpoint error:', error);
+    return res.status(500).json({ message: 'Failed to seed demo data', error: error.message });
+  }
+};
+
 module.exports = {
   register,
   login,
   getStatus,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  getDemoAccounts,
+  demoLogin,
+  seedDemoEndpoint
 };

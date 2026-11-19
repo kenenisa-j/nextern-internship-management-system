@@ -11,6 +11,7 @@ router.use(applicationGuard);
 // Map routes
 router.post('/', requireRole(['INTERN']), submissionController.submitTask);
 router.get('/', submissionController.getSubmissions);
+router.get('/my', submissionController.getSubmissions);
 router.put('/grade/:id', requireRole(['MENTOR', 'ORG_ADMIN', 'ADMIN']), submissionController.gradeSubmission);
 
 module.exports = router;

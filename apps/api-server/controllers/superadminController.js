@@ -53,6 +53,16 @@ const approveTenant = async (req, res, next) => {
       return res.status(404).json({ message: 'Tenant not found.' });
     }
 
+    // Safety guard for demo accounts: Prevent modifying non-demo production tenants
+    const isDemoUser = req.user.is_demo || (req.user.email && req.user.email.toLowerCase().includes('demo'));
+    const isDemoTenant = tenant.subdomain && tenant.subdomain.toLowerCase().includes('demo');
+    if (isDemoUser && !isDemoTenant) {
+      return res.json({
+        message: 'Demo Review Mode: Platform protection active. Modifications are restricted to demo workspaces to protect production organizations.',
+        tenant: { ...tenant, status: 'ACTIVE' }
+      });
+    }
+
     const updated = await prisma.tenant.update({
       where: { id },
       data: {
@@ -112,6 +122,16 @@ const rejectTenant = async (req, res, next) => {
       return res.status(404).json({ message: 'Tenant not found.' });
     }
 
+    // Safety guard for demo accounts: Prevent modifying non-demo production tenants
+    const isDemoUser = req.user.is_demo || (req.user.email && req.user.email.toLowerCase().includes('demo'));
+    const isDemoTenant = tenant.subdomain && tenant.subdomain.toLowerCase().includes('demo');
+    if (isDemoUser && !isDemoTenant) {
+      return res.json({
+        message: 'Demo Review Mode: Platform protection active. Modifications are restricted to demo workspaces to protect production organizations.',
+        tenant: { ...tenant, status: 'ACTIVE' }
+      });
+    }
+
     const updated = await prisma.tenant.update({
       where: { id },
       data: { status: 'REJECTED' }
@@ -161,6 +181,16 @@ const suspendTenant = async (req, res, next) => {
     const org = await prisma.tenant.findUnique({ where: { id } });
     if (!org) {
       return res.status(404).json({ message: 'Tenant not found.' });
+    }
+
+    // Safety guard for demo accounts: Prevent modifying non-demo production tenants
+    const isDemoUser = req.user.is_demo || (req.user.email && req.user.email.toLowerCase().includes('demo'));
+    const isDemoTenant = org.subdomain && org.subdomain.toLowerCase().includes('demo');
+    if (isDemoUser && !isDemoTenant) {
+      return res.json({
+        message: 'Demo Review Mode: Platform protection active. Modifications are restricted to demo workspaces to protect production organizations.',
+        tenant: { ...org, status: 'SUSPENDED' }
+      });
     }
 
     const updated = await prisma.tenant.update({

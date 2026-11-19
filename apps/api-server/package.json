@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "seed:demo": "node scripts/seedDemoData.js"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

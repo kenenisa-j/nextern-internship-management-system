@@ -351,7 +351,17 @@ const InternDashboard = () => {
                         <Button variant="primary" icon={Award} onClick={() => window.open(`/verify/${certificate.id}`, '_blank')}>
                           View Certificate
                         </Button>
-                        <Button variant="secondary">Download PDF</Button>
+                        <Button
+                          variant="secondary"
+                          onClick={() => {
+                            const apiBase = import.meta.env.DEV
+                              ? 'http://localhost:5001/api/v1'
+                              : (import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api/v1` : '/api/v1');
+                            window.open(`${apiBase}/reports/certificate/${user?.id}?format=pdf`, '_blank');
+                          }}
+                        >
+                          Download PDF
+                        </Button>
                       </div>
                     </div>
                   </CardBody>

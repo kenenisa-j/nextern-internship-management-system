@@ -205,6 +205,17 @@ const exportCertificate = async (req, res, next) => {
       });
     }
 
+    if (req.query.format === 'json' || (req.headers.accept?.includes('application/json') && req.query.format !== 'pdf')) {
+      return res.json({
+        certificate: {
+          id: certificate.id,
+          organizationName: tenant?.name || 'IMS Partner Organization',
+          issuedAt: certificate.generated_at,
+          url: certificate.url
+        }
+      });
+    }
+
     // Fetch QR Code image from public API as buffer
     const appUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     const verifyUrl = `${appUrl}/verify/certificate/${certificate.id}`;

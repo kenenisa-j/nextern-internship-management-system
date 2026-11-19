@@ -14,5 +14,6 @@ router.use(applicationGuard);
 // Map routes
 router.post('/', requireRole(['MENTOR', 'ORG_ADMIN']), evaluationController.submitEvaluation);
 router.get('/', evaluationController.getEvaluations);
+router.get('/my', evaluationController.getEvaluations);
 
 module.exports = router;

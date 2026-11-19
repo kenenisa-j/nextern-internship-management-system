@@ -11,6 +11,7 @@ router.use(applicationGuard);
 // Map routes
 router.post('/', requireRole(['MENTOR', 'ORG_ADMIN', 'ADMIN']), taskController.createTask);
 router.get('/', taskController.getAllTasks);
+router.get('/my', taskController.getAllTasks);
 router.put('/:id', requireRole(['MENTOR', 'ORG_ADMIN', 'ADMIN']), taskController.editTask);
 router.delete('/:id', requireRole(['MENTOR', 'ORG_ADMIN', 'ADMIN']), taskController.deleteTask);
 

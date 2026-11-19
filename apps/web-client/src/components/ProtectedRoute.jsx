@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     return <Navigate to="/login" replace />
   }
 
-  if (user.role === 'intern' && user.status === 'PENDING') {
+  if ((user.role || '').toLowerCase() === 'intern' && user.status === 'PENDING') {
     return <InternHoldingArea />
   }
 

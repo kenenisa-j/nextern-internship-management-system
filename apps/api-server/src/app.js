@@ -63,10 +63,8 @@ app.use('/public', express.static(path.join(__dirname, '..', 'public')))
 const tenantResolver = require('./middlewares/tenantResolver');
 app.use((req, res, next) => {
   const skip = [
-    '/api/v1/auth/login',
-    '/api/v1/auth/register',
-    '/api/v1/auth/forgot-password',
-    '/api/v1/auth/reset-password',
+    '/auth',
+    '/api/v1/auth',
     '/api/v1/superadmin',
   ];
   if (skip.some(path => req.path.startsWith(path.replace('/api/v1', '')))) {

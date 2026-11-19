@@ -9,7 +9,8 @@ const applicationGuard = (req, res, next) => {
   }
 
   // Intercept if the user is an intern but their application is still PENDING
-  if (req.user.role === 'intern' && req.user.status === 'PENDING') {
+  const roleUpper = (req.user.role || '').toUpperCase();
+  if (roleUpper === 'INTERN' && req.user.status === 'PENDING') {
     logger.warn('Quarantined intern blocked by applicationGuard', { userId: req.user.id });
     return res.status(403).json({
       error: 'Access Denied',

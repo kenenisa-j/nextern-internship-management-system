@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "clean": "turbo run clean"
+    "clean": "turbo run clean",
+    "seed:demo": "turbo --filter=@apps/api-server seed:demo"
   },
   "devDependencies": {
     "turbo": "^2.0.0"
