@@ -313,7 +313,7 @@ const HomePage = () => {
 
       {/* ── FEATURED PROGRAMS ─────────────────────────────── */}
       {programs.length > 0 && (
-        <section style={{ padding: '0 24px 80px', maxWidth: 1100, margin: '0 auto' }}>
+        <section className="featured-section" style={{ padding: '0 24px 80px', maxWidth: 1100, margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 32, flexWrap: 'wrap', gap: 12 }}>
             <div>
               <h2 style={{ fontSize: 'clamp(20px,3vw,28px)', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.4px' }}>Featured Opportunities</h2>
@@ -326,18 +326,20 @@ const HomePage = () => {
           <div className="programs-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: 20
+            gap: 20,
+            width: '100%',
+            boxSizing: 'border-box'
           }}>
             {programs.map((p, i) => {
               const org = p.tenant || p.organization || {};
               const logo = org.logo_url;
               const name = org.name || 'Organization';
-              const industry = org.industry || 'Industry';
               const verified = org.is_verified || false;
 
               return (
                 <motion.div
                   key={p.id}
+                  className="program-card"
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -345,42 +347,56 @@ const HomePage = () => {
                   whileHover={{ y: -2, boxShadow: 'var(--shadow-lg)' }}
                   style={{
                     background: 'var(--bg-card)', border: '1px solid var(--border-default)', borderRadius: 14,
-                    padding: 20, transition: 'all 0.2s', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
+                    padding: 20, transition: 'all 0.2s', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+                    width: '100%', maxWidth: '100%', boxSizing: 'border-box', overflow: 'hidden'
                   }}
                 >
-                  <div>
-                    <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
+                  <div style={{ width: '100%', minWidth: 0 }}>
+                    <div style={{ display: 'flex', gap: 12, marginBottom: 12, alignItems: 'flex-start', width: '100%', minWidth: 0 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: 'var(--color-primary-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
                         {logo
                           ? <img src={logo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                           : <Building2 size={20} color="var(--color-primary)" />}
                       </div>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.title}</div>
-                        <div style={{ fontSize: 12, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4 }}>
-                          {name}
-                          {verified && <span style={{ color: '#10B981', fontSize: 11 }}>✔</span>}
+                      <div style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
+                        <div style={{
+                          fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4,
+                          lineHeight: 1.35, wordBreak: 'break-word', overflowWrap: 'break-word',
+                          display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'
+                        }}>
+                          {p.title}
+                        </div>
+                        <div style={{ fontSize: 12, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{name}</span>
+                          {verified && <span style={{ color: '#10B981', fontSize: 11, flexShrink: 0 }}>✔</span>}
                         </div>
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12, width: '100%' }}>
                       {[
                         { label: p.category, color: 'var(--color-primary-light)', text: 'var(--color-primary)', border: 'var(--color-primary-border)' },
                         { label: p.type, color: 'var(--bg-subtle)', text: 'var(--text-secondary)', border: 'var(--border-default)' },
                         { label: p.is_paid ? 'Paid' : 'Unpaid', color: p.is_paid ? 'var(--color-success-light)' : 'var(--bg-subtle)', text: p.is_paid ? 'var(--color-success)' : 'var(--text-muted)', border: p.is_paid ? 'var(--color-success-border)' : 'var(--border-default)' },
                       ].map(b => (
-                        <span key={b.label} style={{ fontSize: 11, padding: '2px 8px', borderRadius: 999, background: b.color, color: b.text, border: `1px solid ${b.border}`, fontWeight: 600 }}>{b.label}</span>
+                        <span key={b.label} style={{
+                          fontSize: 11, padding: '2px 8px', borderRadius: 999,
+                          background: b.color, color: b.text, border: `1px solid ${b.border}`,
+                          fontWeight: 600, maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
+                        }}>
+                          {b.label}
+                        </span>
                       ))}
                     </div>
 
-                    <div style={{ display: 'flex', gap: 14, marginBottom: 16, flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap', width: '100%' }}>
                       {[
                         { icon: MapPin, val: p.location || 'Remote' },
                         { icon: Clock, val: p.duration || '—' },
                       ].map((r, ri) => (
-                        <div key={ri} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'var(--text-muted)' }}>
-                          <r.icon size={12} />{r.val}
+                        <div key={ri} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'var(--text-muted)', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          <r.icon size={12} style={{ flexShrink: 0 }} />
+                          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.val}</span>
                         </div>
                       ))}
                     </div>
@@ -388,8 +404,9 @@ const HomePage = () => {
 
                   <Link to={`/program/${p.id}`} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                    padding: '9px 0', borderRadius: 8, background: 'var(--color-primary)',
-                    color: 'white', fontSize: 13, fontWeight: 600, textDecoration: 'none', marginTop: 12
+                    padding: '10px 0', borderRadius: 8, background: 'var(--color-primary)',
+                    color: 'white', fontSize: 13, fontWeight: 600, textDecoration: 'none', marginTop: 12,
+                    width: '100%', boxSizing: 'border-box'
                   }}>
                     View Details <ArrowRight size={13} />
                   </Link>
@@ -579,9 +596,20 @@ const HomePage = () => {
             gap: 20px !important;
           }
 
-          /* Programs: single column on mobile */
+          /* Programs & featured section mobile-first */
+          .featured-section {
+            padding: 0 16px 48px !important;
+          }
           .programs-grid {
             grid-template-columns: 1fr !important;
+            gap: 16px !important;
+            width: 100% !important;
+          }
+          .program-card {
+            padding: 16px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
           }
 
           /* Hero section padding */

@@ -214,7 +214,7 @@ const PublicPrograms = () => {
             />
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
+          <div className="programs-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))', gap: 16, width: '100%', boxSizing: 'border-box' }}>
             {filtered.map((p, i) => {
               const org = p.tenant || p.organization || {};
               const logo = org.logo_url;
@@ -233,24 +233,29 @@ const PublicPrograms = () => {
                     borderRadius: 14, padding: 20, display: 'flex', flexDirection: 'column', gap: 0,
                     transition: 'box-shadow 0.15s',
                     cursor: 'pointer',
+                    width: '100%', maxWidth: '100%', boxSizing: 'border-box', overflow: 'hidden'
                   }}
                   onMouseEnter={e => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
                   onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                 >
                   {/* Header */}
-                  <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
+                  <div style={{ display: 'flex', gap: 12, marginBottom: 12, alignItems: 'flex-start', width: '100%', minWidth: 0 }}>
                     <div style={{ width: 44, height: 44, borderRadius: 10, background: 'var(--color-primary-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
                       {logo
                         ? <img src={logo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         : <Building2 size={20} color="var(--color-primary)" />}
                     </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <div style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
+                      <div style={{
+                        fontSize: 15, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4,
+                        lineHeight: 1.35, wordBreak: 'break-word', overflowWrap: 'break-word',
+                        display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'
+                      }}>
                         {p.title}
                       </div>
                       <div style={{ fontSize: 12, color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 4 }}>
-                        {name}
-                        {verified && <span style={{ color: '#10B981', fontSize: 11 }}>✔</span>}
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{name}</span>
+                        {verified && <span style={{ color: '#10B981', fontSize: 11, flexShrink: 0 }}>✔</span>}
                       </div>
                     </div>
                   </div>
@@ -324,6 +329,15 @@ const PublicPrograms = () => {
           </Link>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .programs-grid {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

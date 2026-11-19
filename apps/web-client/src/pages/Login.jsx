@@ -183,7 +183,7 @@ const Login = () => {
       </div>
 
       {/* Right Panel — form + in-page demo logins */}
-      <div style={{
+      <div className="login-right-panel" style={{
         width: '100%', maxWidth: 520, display: 'flex', flexDirection: 'column',
         justifyContent: 'center', padding: '40px 32px', background: 'var(--bg-card)',
         position: 'relative', overflowY: 'auto'
@@ -355,6 +355,7 @@ const Login = () => {
                       transition: 'all 0.15s ease',
                       textAlign: 'left',
                       width: '100%',
+                      boxSizing: 'border-box',
                       opacity: demoLoadingRole && !isLoading ? 0.6 : 1
                     }}
                     onMouseEnter={(e) => {
@@ -372,7 +373,7 @@ const Login = () => {
                       }
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0, flex: 1 }}>
                       <div style={{
                         width: 32, height: 32, borderRadius: 8,
                         background: `${demo.color}18`, color: demo.color,
@@ -381,19 +382,22 @@ const Login = () => {
                       }}>
                         <RoleIcon size={16} />
                       </div>
-                      <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <div style={{ minWidth: 0, flex: 1, overflow: 'hidden' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                           <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-primary)' }}>
                             {demo.name}
                           </span>
                           <span style={{
                             fontSize: 10, fontWeight: 600, padding: '1px 6px', borderRadius: 4,
-                            background: `${demo.color}20`, color: demo.color
+                            background: `${demo.color}20`, color: demo.color, flexShrink: 0
                           }}>
                             {demo.badge}
                           </span>
                         </div>
-                        <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
+                        <div style={{
+                          fontSize: 11, color: 'var(--text-muted)', marginTop: 2,
+                          overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
+                        }}>
                           {demo.desc}
                         </div>
                       </div>
@@ -439,6 +443,11 @@ const Login = () => {
         @media (max-width: 768px) {
           .hide-on-mobile { display: none !important; }
           .show-on-mobile { display: block !important; }
+        }
+        @media (max-width: 480px) {
+          .login-right-panel {
+            padding: 32px 16px !important;
+          }
         }
         .show-on-mobile { display: none; }
       `}</style>
